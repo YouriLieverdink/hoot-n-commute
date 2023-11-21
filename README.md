@@ -1,4 +1,4 @@
-# CorPool: Corporate Carpooling
+# HootNCommute: Corporate Carpooling
 
 This readme will describe the details of the CorPool system: the architecture and all components, the implementation details, the infrastructure and its details, and, of course, how to run it yourself.
 
