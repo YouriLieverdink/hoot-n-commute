@@ -1,0 +1,26 @@
+upstream backend { 
+    server ${BACKEND_LOCAL_ADDRESS};
+}
+
+upstream frontend {
+    server ${FRONTEND_LOCAL_ADDRESS};
+}
+
+server {
+    # WebSocket connections
+    location /api/ride/find {
+        proxy_pass http://backend/api/ride/find;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+    }
+
+    location /api {
+        proxy_set_header Host $host;
+        proxy_pass http://backend/api;
+    }
+
+    location / {
+        proxy_pass http://frontend/;
+    }
+}

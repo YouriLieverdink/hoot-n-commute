@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  revproxy:
+    image: nginx
+    ports:
+      - "33080:80"
+    volumes:
+      - "./reverseproxy:/etc/nginx/templates/"
+    environment:
+      - BACKEND_LOCAL_ADDRESS=host.docker.internal:33081
+      - FRONTEND_LOCAL_ADDRESS=host.docker.internal:8080
+
+  # MongoDB Database
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    restart: always
+    hostname: mongo
+    ports:
+      - "33017:27017"
+    environment:
+      - MONGODB_ADVERTISED_HOSTNAME=mongo
+      - MONGODB_USERNAME=root
+      - MONGODB_PASSWORD=root
+      - MONGODB_ROOT_PASSWORD=root
+
+  # RabbitMQ
+  rabbitmq:
+    image: 'bitnami/rabbitmq:latest'
+    restart: always
+    hostname: rabbitmq
+    ports:
+      - "33072:5672"
+      - "33172:15672"
+    environment:
+      - RABBITMQ_USERNAME=root
+      - RABBITMQ_PASSWORD=root
+
+  # Redis
+  redis:
+    image: 'bitnami/redis:latest'
+    restart: always
+    hostname: redis
+    ports:
+      - "33079:6379"
+    environment:
+      - REDIS_PASSWORD=root
